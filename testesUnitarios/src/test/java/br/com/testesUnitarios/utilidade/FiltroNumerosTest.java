@@ -16,7 +16,7 @@ class FiltroNumerosTest {
         List<Integer> numerosEsperados = Arrays.asList(2, 4);
         List<Integer> resultadoDoFiltro = FiltroNumeros.numerosPares(numeros);
         Assertions.assertIterableEquals(numerosEsperados, resultadoDoFiltro);
-        
+
     }
 
 }
