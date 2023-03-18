@@ -27,6 +27,17 @@ class SaudacaoUtilTest {
     }
 
     @Test
+    public void deveRetornarBomDiaApartirDas5h(){
+        String saudacao = SaudacaoUtil.saudar(5);
+        assertEquals("Bom dia", saudacao);
+    }
+    @Test
+    public void deveRetornarBoaNoiteAteAs4h(){
+        String saudacao = SaudacaoUtil.saudar(4);
+        assertEquals("Boa noite", saudacao);
+    }
+
+    @Test
     public void deveLancarException(){
         IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> SaudacaoUtil.saudar(25));
         assertEquals("Hora inválida", illegalArgumentException.getMessage());
