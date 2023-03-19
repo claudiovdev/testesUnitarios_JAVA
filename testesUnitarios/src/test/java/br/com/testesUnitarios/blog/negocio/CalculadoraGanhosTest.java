@@ -32,23 +32,34 @@ class CalculadoraGanhosTest {
     }
 
     @Test
-    public void deveCalcularGanhor(){
+    public void deveCalcularGanhorComPostEAutorPremiumRetornandoValor(){
         Ganhos ganhos = calculadora.calcular(post);
 
         assertEquals(new BigDecimal(45), ganhos.getTotalGanho());
+    }
+
+    @Test
+    public void deveRetornarQuantidadeDePalavrasDoPost(){
+        Ganhos ganhos = calculadora.calcular(post);
+
         assertEquals(7, ganhos.getQuantidadePalavras());
+
+    }
+
+    @Test
+    public void deveRetornarValorPagoPorPalavraParaAutorDoPost(){
+        Ganhos ganhos = calculadora.calcular(post);
+
         assertEquals(autor.getValorPagoPorPalavra(), ganhos.getValorPagoPorPalavra());
     }
-    @Test
 
+    @Test
     public void deveCalcularGanhorSemPremium(){
         autor.setPremium(false);
 
         Ganhos ganhos = calculadora.calcular(post);
 
         assertEquals(new BigDecimal(35), ganhos.getTotalGanho());
-        assertEquals(7, ganhos.getQuantidadePalavras());
-        assertEquals(autor.getValorPagoPorPalavra(), ganhos.getValorPagoPorPalavra());
     }
 
 }

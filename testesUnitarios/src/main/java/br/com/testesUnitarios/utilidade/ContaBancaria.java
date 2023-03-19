@@ -27,7 +27,7 @@ public class ContaBancaria {
         if(valor == null || valor.signum() < 0){
             throw new IllegalArgumentException();
         }
-        this.saldo.add(valor);
+        this.saldo = this.saldo.add(valor);
     }
 
     public BigDecimal saldo(){
