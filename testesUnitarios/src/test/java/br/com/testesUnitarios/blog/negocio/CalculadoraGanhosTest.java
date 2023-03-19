@@ -20,10 +20,12 @@ class CalculadoraGanhosTest {
 
     @BeforeAll
     static void beforeAll(){
+
         calculadora = new CalculadoraGanhos(new ProcessadorTextoSimples(), BigDecimal.TEN);
     }
     @BeforeEach
     void beforeEach(){
+
          autor = new Editor(1L, "Vinicius", "vinicius@gmail.com", new BigDecimal(5), true);
          post = new Post(1L, "Ecosistema Java", "O ecosistema do java é muito maduro", autor, "Ecosistema-java", null, false, false);
 
