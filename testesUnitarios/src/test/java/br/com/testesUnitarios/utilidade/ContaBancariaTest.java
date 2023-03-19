@@ -1,5 +1,6 @@
 package br.com.testesUnitarios.utilidade;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@DisplayName("Teste no utilitário de conta bancaria")
 class ContaBancariaTest {
 
     @Test
