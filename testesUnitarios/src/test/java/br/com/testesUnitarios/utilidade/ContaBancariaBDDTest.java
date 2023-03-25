@@ -31,6 +31,7 @@ public class ContaBancariaBDDTest {
             @Test
             @DisplayName("Então não deve lançar exception")
             void naoDeveLancarSaqueSemException() {
+
                 assertDoesNotThrow(()-> conta.saque(valorSaque));
             }
 
@@ -52,6 +53,7 @@ public class ContaBancariaBDDTest {
             @Test
             @DisplayName("Então deve lançar exception")
             void deveFalhar() {
+
                 assertThrows(RuntimeException.class, ()-> conta.saque(valorSaque));
             }
 

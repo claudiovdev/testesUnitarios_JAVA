@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class CarrinhoCompra {
 
@@ -19,8 +20,7 @@ public class CarrinhoCompra {
     }
 
     public List<ItemCarrinhoCompra> getItens() {
-        //TODO deve retornar uma nova lista para que a antiga não seja alterada
-        return null;
+        return new ArrayList<>(itens);
     }
 
     public Cliente getCliente() {
@@ -28,9 +28,28 @@ public class CarrinhoCompra {
     }
 
     public void adicionarProduto(Produto produto, int quantidade) {
-        //TODO parâmetros não podem ser nulos, deve retornar uma exception
-        //TODO quantidade não pode ser menor que 1
-        //TODO deve incrementar a quantidade caso o produto já exista
+        Objects.requireNonNull(produto);
+        validaQuantidadeDoProduto(quantidade);
+        verificarSeProdutoExisteEAdicionar(produto)
+                .ifPresentOrElse(itemCarrinhoCompra -> itemCarrinhoCompra.adicionarQuantidade(quantidade),
+                        ()-> adicionarNovoProduto(produto, quantidade));
+    }
+
+    private void adicionarNovoProduto(Produto produto, int quantidade) {
+        this.itens.add(new ItemCarrinhoCompra(produto, quantidade));
+    }
+
+
+    private Optional<ItemCarrinhoCompra> verificarSeProdutoExisteEAdicionar(Produto produto) {
+        return this.itens.stream()
+                .filter(item -> item.getProduto().equals(produto))
+                .findFirst();
+    }
+
+    private void validaQuantidadeDoProduto(int quantidade) {
+        if(quantidade <= 0){
+            throw new IllegalArgumentException("A quantidade não pode ser menor que zero");
+        }
     }
 
     public void removerProduto(Produto produto) {
@@ -57,13 +76,13 @@ public class CarrinhoCompra {
     }
 
     public int getQuantidadeTotalDeProdutos() {
-        //TODO retorna quantidade total de itens no carrinho
-        //TODO Exemplo em um carrinho com 2 itens, com a quantidade 2 e 3 para cada item respectivamente, deve retornar 5
-        return 0;
+        int quantidadeDeProdutos = 0;
+        return this.itens.stream()
+                .map(ItemCarrinhoCompra::getQuantidade).reduce(0, (a,b) -> a + b);
     }
 
     public void esvaziar() {
-        //TODO deve remover todos os itens
+        this.itens.clear();
     }
 
     @Override
