@@ -13,51 +13,59 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CarrinhoCompraTest {
 
-    CarrinhoCompra carrinhoCompra;
-    Cliente cliente;
-
-    ItemCarrinhoCompra itemCarrinhoCompra;
-
-    Produto produto;
-    Produto produto2;
-
-    List<ItemCarrinhoCompra> itemCarrinhoCompras;
+    private CarrinhoCompra carrinhoCompra;
+    private Cliente cliente;
+    private List<ItemCarrinhoCompra> itens;
+    private Produto notebook;
+    private Produto desktop;
+    private Produto tablet;
 
     @BeforeEach
-    void beforeEach(){
+    public void beforeEach() {
+        cliente = new Cliente(1L, "Alex Silva");
 
-        cliente = new Cliente(1L, "Vinicius");
+        notebook = new Produto(1L, "Notebook", "Notebook", BigDecimal.TEN);
+        desktop = new Produto(2L, "Desktop", "Desktop", BigDecimal.valueOf(20.50));
+        tablet = new Produto(3L, "Tablet", "Tablet", BigDecimal.valueOf(30.50));
 
-        produto = new Produto(1L, "Casa", "Uma casa", new BigDecimal(20));
-        produto2 = new Produto(1L, "Carro", "Um carro", new BigDecimal(50));
+        itens = new ArrayList<>();
+        itens.add(new ItemCarrinhoCompra(notebook, 2));
+        itens.add(new ItemCarrinhoCompra(desktop, 1));
 
-       itemCarrinhoCompras = new ArrayList<>();
-
-        carrinhoCompra = new CarrinhoCompra(cliente, itemCarrinhoCompras);
-
-
+        carrinhoCompra = new CarrinhoCompra(cliente, itens);
     }
 
     @Nested
-    @DisplayName("Quando adicionar produto")
-    class adicioarProdutoAoCarrinho{
+    @DisplayName("Quando retornar itens")
+    class QuandoRetornarItens {
+
         @Test
-        public void deveAdicionarProdutoAoCarrinho(){
-            Produto resultado = new Produto(1L, "Casa", "Uma casa", new BigDecimal(20));
-
-            carrinhoCompra.adicionarProduto(produto, 2);
-
-            assertAll(
-                    () -> assertEquals(resultado.getId(),carrinhoCompra.getItens().get(0).getProduto().getId()),
-                    () -> assertEquals(resultado.getNome(),carrinhoCompra.getItens().get(0).getProduto().getNome()),
-                    () -> assertEquals(resultado.getDescricao(),carrinhoCompra.getItens().get(0).getProduto().getDescricao())
-            );
-
+        @DisplayName("Então deve retornar dois itens")
+        void entaoDeveRetornarDoisItens(){
+            assertEquals(2, carrinhoCompra.getItens().size());
         }
 
         @Test
-        public void deveLancarExceptionAoAdicionarQuantidadeDeProdutoMenorQueZero(){
-            assertThrows(IllegalArgumentException.class, ()-> carrinhoCompra.adicionarProduto(produto, 0));
+        @DisplayName("E deve retornar uma nova instância da lista de itens")
+        void eDeveRetornarUmaNovaLista() {
+            carrinhoCompra.getItens().clear(); //Get Itens, retorna uma nova lista
+            assertEquals(2, carrinhoCompra.getItens().size()); //Lista permaneceu intacta
+        }
+    }
+
+    @Nested
+    @DisplayName("Quando remover um notebook")
+    class QuandoRemoverUmItem{
+
+        @BeforeEach
+        public void beforeEach() {
+            carrinhoCompra.removerProduto(notebook);
+        }
+
+        @Test
+        @DisplayName("Então não deve diminuir quantidade total")
+        void EntaoNaoDeveDiminuirQuantidadeTotal(){
+            assertEquals(1, carrinhoCompra.getItens().size());
         }
     }
 }
